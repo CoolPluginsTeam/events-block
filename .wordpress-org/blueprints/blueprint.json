@@ -1,5 +1,5 @@
 {
-    "landingPage": "/wp-admin/post.php?post=73&action=edit",
+    "landingPage": "/wp-admin/post.php?post=85548&action=edit",
     "preferredVersions": {
       "php": "8.2",
       "wp": "latest"
@@ -16,7 +16,16 @@
         "username": "admin",
         "password": "password"
       },
-     
+      {
+        "step": "installPlugin",
+        "pluginData": {
+          "resource": "wordpress.org/plugins",
+          "slug": "events-block"
+        },
+        "options": {
+          "activate": true
+        }
+      },
       {
         "step": "importWxr",
         "file": {
