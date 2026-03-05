@@ -9,7 +9,7 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 			// register actions
 
 			if ( is_admin() ) {
-				add_action( 'ect_display_admin_notices', array( $this, 'evtb_admin_notice_for_reviews' ) );
+				add_action( 'admin_notices', array( $this, 'evtb_admin_notice_for_reviews' ) );
 				add_action( 'wp_ajax_evtb_dismiss_notice', array( $this, 'evtb_dismiss_review_notice' ) );
 			}
 		}
@@ -42,7 +42,7 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 			$diff_days    = $difference->days;
 
 			// check if installation days is greator then week
-			if ( isset( $diff_days ) && $diff_days >= 3 ) {
+			if ( isset( $diff_days ) && $diff_days <= 3 ) {
 				wp_enqueue_style( 'evtb-feedback-notice-styles', EVENTS_BLOCK_URL . 'admin/feedback-notice/css/evtb-admin-feedback-notice.css', array(), EVENTS_BLOCK_VERSION, null, 'all' );
 				wp_enqueue_script( 'evtb-feedback-notice-script', EVENTS_BLOCK_URL . 'admin/feedback-notice/js/evtb-admin-feedback-notice.js', array( 'jquery' ), EVENTS_BLOCK_VERSION, true );
 				$content = wp_kses_post( $this->create_notice_content() );
