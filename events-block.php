@@ -13,6 +13,9 @@ define( 'EVENTS_BLOCK_VERSION', '1.0.6' );
 define( 'EVENTS_BLOCK_FILE', __FILE__ );
 define( 'EVENTS_BLOCK_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EVENTS_BLOCK_URL', plugin_dir_url( __FILE__ ) );
+define( 'EVENTS_BLOCK_FEEDBACK_API', 'https://feedback.coolplugins.net/' );
+
+
 
 final class EVTB_Events_Block {
 	private static $instance = null;
@@ -26,6 +29,8 @@ final class EVTB_Events_Block {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_assets' ) );
+		add_action( 'plugins_loaded', array( $this, 'evtb_check_event_calender_installed' ) );
+		$this->evtb_require_files();
 	}
 	/**
 	 * Plugin Activation Hook
@@ -42,7 +47,11 @@ final class EVTB_Events_Block {
 		if(!get_option( 'evtb_install_date' ) ) {
 			add_option( 'evtb_install_date', gmdate('Y-m-d h:i:s') );
 		}
+		if(!get_option( 'evtb_ratingDiv' ) ) {
+			add_option( 'evtb_ratingDiv', 'no' );
+		}
 	}
+
 	public function init() {
 		$asset = file_exists( EVENTS_BLOCK_PATH . 'build/index.asset.php' ) ? require EVENTS_BLOCK_PATH . 'build/index.asset.php' : array( 'dependencies' => array(), 'version' => EVENTS_BLOCK_VERSION );
 		wp_register_script( 'evtb-events-blocks', EVENTS_BLOCK_URL . 'build/index.js', $asset['dependencies'], $asset['version'], true );
@@ -60,5 +69,52 @@ final class EVTB_Events_Block {
 		wp_enqueue_style( 'evtb-icons', EVENTS_BLOCK_URL . 'assets/css/evtb-icons.css', array(), EVENTS_BLOCK_VERSION );
 		wp_enqueue_script( 'evtb-frontend', EVENTS_BLOCK_URL . 'assets/js/frontend.js', array(), EVENTS_BLOCK_VERSION, true );
 	}
+
+	public function evtb_check_event_calender_installed(){
+		if (is_admin()) {
+				require_once EVENTS_BLOCK_PATH . 'admin/feedback/admin-feedback-form.php';
+			}
+		if(!class_exists('CPFM_Feedback_Notice')){
+				require_once EVENTS_BLOCK_PATH . 'admin/cpfm-feedback/cpfm-feedback-notice.php';
+			}
+		
+		add_action('cpfm_register_notice', function () {
+			
+				if (!class_exists('CPFM_Feedback_Notice') || !current_user_can('manage_options')) {
+					return;
+				}
+				$notice = [
+					'title' => __('Events Addons By Cool Plugins', 'events-block'),
+					'message' => __('Help us make this plugin more compatible with your site by sharing non-sensitive site data.', 'events-block'),
+					'pages' => ['cool-plugins-events-addon', 'events-block'],
+					'always_show_on' => ['cool-plugins-events-addon', 'events-block'], // This enables auto-show
+					'plugin_name'=>'events-block',
+					
+				];
+	
+				CPFM_Feedback_Notice::cpfm_register_notice('cool_events', $notice);
+	
+					if (!isset($GLOBALS['cool_plugins_feedback'])) {
+						$GLOBALS['cool_plugins_feedback'] = [];//phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+					}
+				
+					$GLOBALS['cool_plugins_feedback']['cool_events'][] = $notice;//phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+		   
+			});
+
+		add_action('cpfm_after_opt_in_evtb', function($category) {
+	
+				if ($category === 'cool_events') {
+					EVTB_cronjob::evtb_send_data();
+				}
+			});
+	}
+
+	public function evtb_require_files() {
+			if ( is_admin() ) {
+				require_once EVENTS_BLOCK_PATH . 'admin/feedback-notice/evtb-feedback-notice.php';
+				new evtbFeedbackNotice();
+			}
+		}
 }
 EVTB_Events_Block::get_instance();
