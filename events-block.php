@@ -33,8 +33,7 @@ final class EVTB_Events_Block
 		add_action('init', array($this, 'init'));
 		add_action('enqueue_block_editor_assets', array($this, 'editor_assets'));
 		add_action('wp_enqueue_scripts', array($this, 'frontend_assets'));
-		add_action('plugins_loaded', array($this, 'evtb_check_event_calender_installed'));
-		$this->evtb_require_files();
+		add_action('plugins_loaded', array($this, 'evtb_load_admin_files'));
 	}
 	/**
 	 * Plugin Activation Hook
@@ -78,19 +77,13 @@ final class EVTB_Events_Block
 		wp_enqueue_script('evtb-frontend', EVENTS_BLOCK_URL . 'assets/js/frontend.js', array(), EVENTS_BLOCK_VERSION, true);
 	}
 
-	public function evtb_check_event_calender_installed()
-	{
-		if (is_admin()) {
-			require_once EVENTS_BLOCK_PATH . 'admin/feedback/admin-feedback-form.php';
-		}
-	}
+	public function evtb_load_admin_files() {
+    if (is_admin()) {
+        require_once EVENTS_BLOCK_PATH . 'admin/feedback/admin-feedback-form.php';
+        require_once EVENTS_BLOCK_PATH . 'admin/feedback-notice/evtb-feedback-notice.php';
 
-	public function evtb_require_files()
-	{
-		if (is_admin()) {
-			require_once EVENTS_BLOCK_PATH . 'admin/feedback-notice/evtb-feedback-notice.php';
-			new evtbFeedbackNotice();
-		}
-	}
+        new evtbFeedbackNotice();
+    }
+}
 }
 EVTB_Events_Block::get_instance();
