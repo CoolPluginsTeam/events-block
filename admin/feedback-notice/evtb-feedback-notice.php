@@ -1,0 +1,106 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
+	class evtbFeedbackNotice {
+		/**
+		 * The Constructor
+		 */
+		public function __construct() {
+			// register actions
+
+			if ( is_admin() ) {
+				add_action( 'admin_notices', array( $this, 'evtb_admin_notice_for_reviews' ) );
+				add_action( 'wp_ajax_evtb_dismiss_notice', array( $this, 'evtb_dismiss_review_notice' ) );
+			}
+		}
+		// ajax callback for review notice
+		public function evtb_dismiss_review_notice() {
+			check_ajax_referer( 'evtb_dismiss_notice_nonce', 'security' );
+			update_option( 'evtb_ratingDiv', 'yes' );
+			wp_send_json_success();
+		}
+		// admin notice
+		public function evtb_admin_notice_for_reviews() {
+
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				return;
+			}
+			 // get installation dates and rated settings
+			 $installation_date = get_option( 'evtb_install_date' );
+			 $alreadyRated      = get_option( 'evtb_ratingDiv' ) != false ? get_option( 'evtb_ratingDiv' ) : 'no';
+
+			 // check user already rated
+			if ( $alreadyRated == 'yes' ) {
+				return;
+			}
+
+			// grab plugin installation date and compare it with current date
+			$display_date = gmdate( 'Y-m-d h:i:s' );
+			$install_date = new DateTime( $installation_date );
+			$current_date = new DateTime( $display_date );
+			$difference   = $install_date->diff( $current_date );
+			$diff_days    = $difference->days;
+
+			// check if installation days is greator then week
+			if ( isset( $diff_days ) && $diff_days >= 3 ) {
+				wp_enqueue_style( 'evtb-feedback-notice-styles', EVENTS_BLOCK_URL . 'admin/feedback-notice/css/evtb-admin-feedback-notice.css', array(), EVENTS_BLOCK_VERSION, null, 'all' );
+				wp_enqueue_script( 'evtb-feedback-notice-script', EVENTS_BLOCK_URL . 'admin/feedback-notice/js/evtb-admin-feedback-notice.js', array( 'jquery' ), EVENTS_BLOCK_VERSION, true );
+				$content = wp_kses_post( $this->create_notice_content() );
+				printf( '%s', $content );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
+		}
+
+		// generated review notice HTML
+		function create_notice_content() {
+		$ajax_url           = esc_url( admin_url( 'admin-ajax.php' ) );
+		$ajax_callback      = 'evtb_dismiss_notice';
+		$wrap_cls           = 'notice notice-info is-dismissible ect-required-plugin-notice';
+		$p_name             = esc_html( 'Events Block' );
+			$like_it_text       = esc_html__( 'Rate Now! ★★★★★', 'events-block' );
+			$already_rated_text = esc_html__( 'Already Reviewed', 'events-block' );
+			$not_like_it_text   = esc_html__( 'Not Interested', 'events-block' );
+			$p_link             = esc_url( 'https://wordpress.org/support/plugin/events-block/reviews/#new-post' );
+			$nonce              = wp_create_nonce( 'evtb_dismiss_notice_nonce' );
+		
+			$message = sprintf(
+				wp_kses_post(
+					'Thanks for using <b>%s</b> WordPress plugin. We hope it meets your expectations! <br/>Please give us a quick rating, it works as a boost for us to keep working on more <a href="%s" target="_blank"><strong>Cool Plugins</strong></a>!<br/>'
+				),
+				$p_name,
+				esc_url( 'https://coolplugins.net/?utm_source=evtb_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=review_notice' )
+			);
+		
+			$html = '
+			<div data-ajax-url="%7$s" data-ajax-callback="%8$s" data-nonce="%9$s" class="cool-feedback-notice-wrapper %1$s">
+				<div class="message_container">%2$s
+					<div class="callto_action">
+						<ul>
+							<li class="love_it"><a href="%3$s" class="like_it_btn button button-primary" target="_blank" title="%4$s">%4$s</a></li>
+							<li class="already_rated"><a href="#" class="already_rated_btn button %8$s" title="%5$s">%5$s</a></li>
+							<li class="already_rated"><a href="#" class="already_rated_btn button %8$s" title="%6$s">%6$s</a></li>
+						</ul>
+						<div class="clrfix"></div>
+					</div>
+				</div>
+			</div>';
+		
+			return sprintf(
+				$html,
+				esc_attr( $wrap_cls ),          // %1$s
+				$message,                       // %2$s
+				$p_link,                        // %3$s
+				esc_html( $like_it_text ),      // %4$s
+				esc_html( $already_rated_text ),// %5$s
+				esc_html( $not_like_it_text ),  // %6$s
+				esc_url( $ajax_url ),           // %7$s
+				esc_attr( $ajax_callback ),     // %8$s
+				esc_attr( $nonce )              // %9$s
+			);
+		}
+
+	} //class end
+
+}
+
+
+
