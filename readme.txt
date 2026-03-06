@@ -2,7 +2,7 @@
 Contributors:coolplugins,narinder-singh,satindersingh
 Tags: block, event, events block, events, gutenberg
 Tested up to: 6.9
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 Requires at least: 6.1
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -66,6 +66,11 @@ Yes. You can use the **Read More** button to link your event to a detailed page,
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage, and handle any security vulnerabilities [Report a security vulnerability](https://patchstack.com/database/vdp/template-events-calendar).
 
 == Changelog ==
+
+= 1.0.7 - 06 March 2026 =
+* Added: Plugin review URL to WordPress.org review page.
+* Added: Feedback notice on deactivation.
+* Fixed: Fixed issues reported by “Plugin Check” plugin.
 
 = 1.0.6 - 29 January 2026 =
 * Fixed Event Item block missing after Block Directory installation.

@@ -42,7 +42,7 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 			$diff_days    = $difference->days;
 
 			// check if installation days is greator then week
-			if ( isset( $diff_days ) && $diff_days <= 3 ) {
+			if ( isset( $diff_days ) && $diff_days >= 3 ) {
 				wp_enqueue_style( 'evtb-feedback-notice-styles', EVENTS_BLOCK_URL . 'admin/feedback-notice/css/evtb-admin-feedback-notice.css', array(), EVENTS_BLOCK_VERSION, null, 'all' );
 				wp_enqueue_script( 'evtb-feedback-notice-script', EVENTS_BLOCK_URL . 'admin/feedback-notice/js/evtb-admin-feedback-notice.js', array( 'jquery' ), EVENTS_BLOCK_VERSION, true );
 				$content = wp_kses_post( $this->create_notice_content() );
@@ -59,7 +59,7 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 			$like_it_text       = esc_html__( 'Rate Now! ★★★★★', 'events-block' );
 			$already_rated_text = esc_html__( 'Already Reviewed', 'events-block' );
 			$not_like_it_text   = esc_html__( 'Not Interested', 'events-block' );
-			$p_link             = esc_url( 'https://wordpress.org/support/plugin/events-block-for-the-events-calendar/reviews/#new-post' );
+			$p_link             = esc_url( 'https://wordpress.org/support/plugin/events-block/reviews/#new-post' );
 			$nonce              = wp_create_nonce( 'evtb_dismiss_notice_nonce' );
 		
 			$message = sprintf(
