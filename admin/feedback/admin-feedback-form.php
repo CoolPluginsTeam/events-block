@@ -51,24 +51,24 @@ class evtb_feedback {
 		}
 		$deactivate_reasons = array(
 			'didnt_work_as_expected'         => array(
-				'title'             => __( 'The plugin didn\'t work as expected.', 'countdown-for-the-events-calendar' ),
+				'title'             => __( 'The plugin didn\'t work as expected.', 'events-block' ),
 				'input_placeholder' => 'What did you expect?',
 			),
 			'found_a_better_plugin'          => array(
-				'title'             => __( 'I found a better plugin.', 'countdown-for-the-events-calendar' ),
-				'input_placeholder' => __( 'Please share which plugin.', 'countdown-for-the-events-calendar' ),
+				'title'             => __( 'I found a better plugin.', 'events-block' ),
+				'input_placeholder' => __( 'Please share which plugin.', 'events-block' ),
 			),
 			'couldnt_get_the_plugin_to_work' => array(
-				'title'             => __( 'The plugin is not working.', 'countdown-for-the-events-calendar' ),
+				'title'             => __( 'The plugin is not working.', 'events-block' ),
 				'input_placeholder' => 'Please share your issue. So we can fix that for other users.',
 			),
 			'temporary_deactivation'         => array(
-				'title'             => __( 'It\'s a temporary deactivation.', 'countdown-for-the-events-calendar' ),
+				'title'             => __( 'It\'s a temporary deactivation.', 'events-block' ),
 				'input_placeholder' => '',
 			),
 			'other'                          => array(
-				'title'             => __( 'Other reason.', 'countdown-for-the-events-calendar' ),
-				'input_placeholder' => __( 'Please share the reason.', 'countdown-for-the-events-calendar' ),
+				'title'             => __( 'Other reason.', 'events-block' ),
+				'input_placeholder' => __( 'Please share the reason.', 'events-block' ),
 			),
 		);
 
@@ -78,7 +78,7 @@ class evtb_feedback {
 			<div class="cp-feedback-wrapper">
 
 			<div class="cp-feedback-header">
-				<div class="cp-feedback-title"><?php echo esc_html__( 'Quick Feedback', 'countdown-for-the-events-calendar' ); ?></div>
+				<div class="cp-feedback-title"><?php echo esc_html__( 'Quick Feedback', 'events-block' ); ?></div>
 				<div class="cp-feedback-title-link">A plugin by <a href="https://coolplugins.net/?utm_source=<?php echo esc_attr( $this->plugin_slug ); ?>_plugin&utm_medium=inside&utm_campaign=coolplugins&utm_content=deactivation_feedback" target="_blank">CoolPlugins.net</a></div>
 			</div>
 
@@ -87,7 +87,7 @@ class evtb_feedback {
 			</div>
 
 			<div class="cp-feedback-form-wrapper">
-				<div class="cp-feedback-form-title"><?php echo esc_html__( 'If you have a moment, please share the reason for deactivating this plugin.', 'countdown-for-the-events-calendar' ); ?></div>
+				<div class="cp-feedback-form-title"><?php echo esc_html__( 'If you have a moment, please share the reason for deactivating this plugin.', 'events-block' ); ?></div>
 				<form class="cp-feedback-form" method="post">
 					<?php
 					wp_nonce_field( '_cool-plugins_deactivate_feedback_nonce' );
@@ -193,24 +193,24 @@ class evtb_feedback {
 			$reason             = isset( $_POST['reason'] ) ? sanitize_text_field(wp_unslash( $_POST['reason'] )) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
-					'title'             => __( 'The plugin didn\'t work as expected', 'countdown-for-the-events-calendar' ),
+					'title'             => __( 'The plugin didn\'t work as expected', 'events-block' ),
 					'input_placeholder' => 'What did you expect?',
 				),
 				'found_a_better_plugin'          => array(
-					'title'             => __( 'I found a better plugin', 'countdown-for-the-events-calendar' ),
-					'input_placeholder' => __( 'Please share which plugin.', 'countdown-for-the-events-calendar' ),
+					'title'             => __( 'I found a better plugin', 'events-block' ),
+					'input_placeholder' => __( 'Please share which plugin.', 'events-block' ),
 				),
 				'couldnt_get_the_plugin_to_work' => array(
-					'title'             => __( 'The plugin is not working', 'countdown-for-the-events-calendar' ),
+					'title'             => __( 'The plugin is not working', 'events-block' ),
 					'input_placeholder' => 'Please share your issue. So we can fix that for other users.',
 				),
 				'temporary_deactivation'         => array(
-					'title'             => __( 'It\'s a temporary deactivation.', 'countdown-for-the-events-calendar' ),
+					'title'             => __( 'It\'s a temporary deactivation.', 'events-block' ),
 					'input_placeholder' => '',
 				),
 				'other'                          => array(
-					'title'             => __( 'Other', 'countdown-for-the-events-calendar' ),
-					'input_placeholder' => __( 'Please share the reason.', 'countdown-for-the-events-calendar' ),
+					'title'             => __( 'Other', 'events-block' ),
+					'input_placeholder' => __( 'Please share the reason.', 'events-block' ),
 				),
 			);
 

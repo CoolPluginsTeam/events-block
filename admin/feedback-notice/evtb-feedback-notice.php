@@ -56,10 +56,10 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 		$ajax_callback      = 'evtb_dismiss_notice';
 		$wrap_cls           = 'notice notice-info is-dismissible ect-required-plugin-notice';
 		$p_name             = esc_html( 'Events Block' );
-			$like_it_text       = esc_html__( 'Rate Now! ★★★★★', 'countdown-for-the-events-calendar' );
-			$already_rated_text = esc_html__( 'Already Reviewed', 'countdown-for-the-events-calendar' );
-			$not_like_it_text   = esc_html__( 'Not Interested', 'countdown-for-the-events-calendar' );
-			$p_link             = esc_url( 'https://wordpress.org/support/plugin/countdown-for-the-events-calendar/reviews/#new-post' );
+			$like_it_text       = esc_html__( 'Rate Now! ★★★★★', 'events-block' );
+			$already_rated_text = esc_html__( 'Already Reviewed', 'events-block' );
+			$not_like_it_text   = esc_html__( 'Not Interested', 'events-block' );
+			$p_link             = esc_url( 'https://wordpress.org/support/plugin/events-block-for-the-events-calendar/reviews/#new-post' );
 			$nonce              = wp_create_nonce( 'evtb_dismiss_notice_nonce' );
 		
 			$message = sprintf(
