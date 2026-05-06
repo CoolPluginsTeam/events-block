@@ -19,3 +19,5 @@ README.md export-ignore
 .babelrc export-ignore
 LICENSE export-ignore
 src/ export-ignore
+.claude/ export-ignore
+.github/ export-ignore
