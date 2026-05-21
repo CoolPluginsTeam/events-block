@@ -44,6 +44,7 @@ final class EVTB_Events_Block
 
 		update_option('evtb_version', EVENTS_BLOCK_VERSION);
 		update_option('evtb_activation_time', gmdate('Y-m-d h:i:s'));
+		update_option('evtb_ratingDiv', 'no');	
 
 		if (!get_option('evtb_initial_save_version')) {
 			add_option('evtb_initial_save_version', EVENTS_BLOCK_VERSION);

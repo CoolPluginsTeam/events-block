@@ -187,9 +187,10 @@ class evtb_feedback {
 
 
 	function submit_deactivation_response() {
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field(wp_unslash( $_POST['_wpnonce'] )), '_cool-plugins_deactivate_feedback_nonce' ) ) {
-			wp_send_json_error();
-		} else {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( 'Unauthorized' );
+		}
+		check_ajax_referer( '_cool-plugins_deactivate_feedback_nonce' );
 			$reason             = isset( $_POST['reason'] ) ? sanitize_text_field(wp_unslash( $_POST['reason'] )) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
@@ -242,8 +243,11 @@ class evtb_feedback {
 				)
 			);
 
-			die( json_encode( array( 'response' => $response ) ) );
-		}
+			if ( is_wp_error( $response ) ) {
+				wp_send_json_error( 'Feedback submission failed' );
+			}
+			
+			wp_send_json_success( 'Feedback submitted successfully' );
 
 	}
 }

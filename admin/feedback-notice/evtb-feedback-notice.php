@@ -16,6 +16,11 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 		// ajax callback for review notice
 		public function evtb_dismiss_review_notice() {
 			check_ajax_referer( 'evtb_dismiss_notice_nonce', 'security' );
+
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				wp_send_json_error( 'Unauthorized' );
+			}
+			
 			update_option( 'evtb_ratingDiv', 'yes' );
 			wp_send_json_success();
 		}
@@ -26,7 +31,7 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 				return;
 			}
 			 // get installation dates and rated settings
-			 $installation_date = get_option( 'evtb_install_date' );
+			 $installation_date = get_option( 'evtb_activation_time' );
 			 $alreadyRated      = get_option( 'evtb_ratingDiv' ) != false ? get_option( 'evtb_ratingDiv' ) : 'no';
 
 			 // check user already rated
@@ -45,8 +50,7 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 			if ( isset( $diff_days ) && $diff_days >= 3 ) {
 				wp_enqueue_style( 'evtb-feedback-notice-styles', EVENTS_BLOCK_URL . 'admin/feedback-notice/css/evtb-admin-feedback-notice.css', array(), EVENTS_BLOCK_VERSION, null, 'all' );
 				wp_enqueue_script( 'evtb-feedback-notice-script', EVENTS_BLOCK_URL . 'admin/feedback-notice/js/evtb-admin-feedback-notice.js', array( 'jquery' ), EVENTS_BLOCK_VERSION, true );
-				$content = wp_kses_post( $this->create_notice_content() );
-				printf( '%s', $content );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo wp_kses_post( $this->create_notice_content() );
 			}
 		}
 
