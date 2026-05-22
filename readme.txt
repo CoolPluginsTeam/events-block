@@ -1,7 +1,7 @@
 === Events Block ===
 Contributors:coolplugins,narinder-singh,satindersingh
 Tags: block, event, events block, events, gutenberg
-Tested up to: 6.9
+Tested up to: 7.0
 Stable tag: 1.0.7
 Requires at least: 6.1
 Requires PHP: 7.4
