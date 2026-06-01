@@ -21,3 +21,5 @@ LICENSE export-ignore
 src/ export-ignore
 .claude/ export-ignore
 .github/ export-ignore
+.codex/                 export-ignore
+.cursor/                export-ignore
