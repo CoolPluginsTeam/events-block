@@ -22,8 +22,8 @@ if ( $hide_past ) {
 			$event_date = substr( $event_date, 0, 10 );
 		}
 
-		$start_time = ! empty( $attributes['eventStartTime'] ) ? $attributes['eventStartTime'] : '00:00';
-		$end_time = ! empty( $attributes['eventEndTime'] ) ? $attributes['eventEndTime'] : '23:59:59';
+		$start_time = ! empty( $attributes['eventStartTime'] ) ? sanitize_text_field( $attributes['eventStartTime'] ) : '00:00';
+		$end_time = ! empty( $attributes['eventEndTime'] ) ? sanitize_text_field( $attributes['eventEndTime'] ) : '23:59:59';
 		$event_dt_str = $event_date . ' ' . $end_time;
 		
 		// Create DateTime object with site's timezone
