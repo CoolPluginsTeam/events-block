@@ -296,7 +296,7 @@ registerBlockType(metadata.name, {
 							}),
 							// DESCRIPTION (empty, just placeholder)
 							createBlock('core/paragraph', {
-								placeholder: __('Event Description', 'events'),
+								placeholder: __('Event Description', 'events-block'),
 								className: 'evtb-event-description'
 							}),
 							// LOCATION

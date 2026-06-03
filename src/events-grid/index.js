@@ -106,7 +106,7 @@ registerBlockType(metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={__('Grid Settings', 'events')}>
+					<PanelBody title={__('Grid Settings', 'events-block')}>
 						<NumberControl
 							label={__('Columns', 'events')}
 							value={columns}

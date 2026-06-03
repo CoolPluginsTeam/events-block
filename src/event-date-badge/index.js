@@ -124,7 +124,7 @@ registerBlockType(metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody className="evtb-date-settings" title={__('Date Settings', 'events')}>
+					<PanelBody className="evtb-date-settings" title={__('Date Settings', 'events-block')}>
 						<div style={{ marginBottom: '15px' }}>
 							<strong>{__('Event Date', 'events')}</strong>
 							<div style={{ margin: '10px 0' }}>
