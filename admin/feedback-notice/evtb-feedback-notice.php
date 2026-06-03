@@ -32,7 +32,11 @@ if ( ! class_exists( 'evtbFeedbackNotice' ) ) {
 			}
 			 // get installation dates and rated settings
 			 $installation_date = get_option( 'evtb_activation_time' );
-			 $alreadyRated      = get_option( 'evtb_ratingDiv' ) != false ? get_option( 'evtb_ratingDiv' ) : 'no';
+			 if ( empty( $installation_date ) ) {
+				return;
+			}
+			 $rating = get_option( 'evtb_ratingDiv' );
+			 $alreadyRated = ( false !== $rating ) ? $rating : 'no';
 
 			 // check user already rated
 			if ( 'yes' === $alreadyRated ) {
