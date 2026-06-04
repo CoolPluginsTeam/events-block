@@ -32,7 +32,7 @@ class evtb_feedback {
 	*/
 	function enqueue_feedback_scripts() {
 		$screen = get_current_screen();
-		if ( isset( $screen ) && $screen->id == 'plugins' ) {
+		if ( isset( $screen ) && 'plugins' === $screen->id ) {
 			wp_enqueue_script( __NAMESPACE__ . 'feedback-script', $this->plugin_url . 'admin/feedback/js/admin-feedback.js', array( 'jquery' ), $this->plugin_version, true );
 			wp_enqueue_style( 'cool-plugins-feedback-css', $this->plugin_url . 'admin/feedback/css/admin-feedback.css', null, $this->plugin_version );
 			}
@@ -46,7 +46,7 @@ class evtb_feedback {
 	*/
 	public function show_deactivate_feedback_popup() {
 		$screen = get_current_screen();
-		if ( ! isset( $screen ) || $screen->id != 'plugins' ) {
+		if ( ! isset( $screen ) || $screen->id !== 'plugins' ) {
 			return;
 		}
 		$deactivate_reasons = array(
@@ -187,9 +187,10 @@ class evtb_feedback {
 
 
 	function submit_deactivation_response() {
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field(wp_unslash( $_POST['_wpnonce'] )), '_cool-plugins_deactivate_feedback_nonce' ) ) {
-			wp_send_json_error();
-		} else {
+		check_ajax_referer( '_cool-plugins_deactivate_feedback_nonce' );
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( 'Unauthorized' );
+		}
 			$reason             = isset( $_POST['reason'] ) ? sanitize_text_field(wp_unslash( $_POST['reason'] )) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
@@ -216,20 +217,21 @@ class evtb_feedback {
 
 			$plugin_initial     = get_option( 'evtb_initial_save_version' );
 			$deativation_reason = array_key_exists( $reason, $deactivate_reasons ) ? $reason : 'other';
-			$sanitized_message  = empty( $_POST['message'] ) || sanitize_text_field(wp_unslash( $_POST['message'] )) == '' ? 'N/A' : sanitize_text_field(wp_unslash( $_POST['message'] ));
+			$sanitized_message  = empty( $_POST['message'] ) || sanitize_text_field(wp_unslash( $_POST['message'] )) === '' ? 'N/A' : sanitize_text_field(wp_unslash( $_POST['message'] ));
 			$admin_email        = sanitize_email( get_option( 'admin_email' ) );
 			$site_url           = esc_url( site_url() );
-			$install_date 		= get_option('evtb-install-date');
+			$install_date 		= get_option('evtb_install_date');
 			$unique_key     	= '27';  // Ensure this key is unique per plugin to prevent collisions when site URL and install date are the same across plugins
             $site_id        	= $site_url . '-' . $install_date . '-' . $unique_key;
 			$feedback_url       = EVENTS_BLOCK_FEEDBACK_API .'wp-json/coolplugins-feedback/v1/feedback';
+			$info               = $this->cpfm_get_user_info();
 			$response           = wp_remote_post(
 				$feedback_url,
 				array(
 					'timeout' => 30,
 					'body'    => array(
-						'server_info'    => serialize($this->cpfm_get_user_info()['server_info']), 
-						'extra_details'  => serialize($this->cpfm_get_user_info()['extra_details']),
+						'server_info'    => wp_json_encode($info['server_info']), 
+						'extra_details'  => wp_json_encode($info['extra_details']),
 						'plugin_initial' => isset($plugin_initial) ? sanitize_text_field($plugin_initial) : 'N/A',
 						'plugin_version' => sanitize_text_field($this->plugin_version),
 						'plugin_name'    => sanitize_text_field($this->plugin_name),
@@ -242,8 +244,11 @@ class evtb_feedback {
 				)
 			);
 
-			die( json_encode( array( 'response' => $response ) ) );
-		}
+			if ( is_wp_error( $response ) ) {
+				wp_send_json_error( 'Feedback submission failed' );
+			}
+			
+			wp_send_json_success( 'Feedback submitted successfully' );
 
 	}
 }

@@ -84,22 +84,37 @@ registerBlockType(metadata.name, {
 				'--evtb-badge-weekday': weekdayColor
 			}
 		});
+		
 
 		// Parse date for display
 		const parseDate = (dateString) => {
-			if (!dateString) return { day: '01', month: 'Jan', year: '0001', weekday: 'MON' };
-
-			try {
-				const date = new Date(dateString);
-				return {
-					day: dateI18n('d', date),
-					month: dateI18n('M', date),
-					year: dateI18n('Y', date),
-					weekday: dateI18n('D', date).toUpperCase()
-				};
-			} catch (e) {
+			if (!dateString) {
 				return { day: '01', month: 'Jan', year: '0001', weekday: 'MON' };
 			}
+		
+			let year, month, day;
+		
+			// Case 1: YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss
+			if (/^\d{4}-\d{2}-\d{2}/.test(dateString)) {
+				const cleanDate = dateString.split('T')[0];
+				[year, month, day] = cleanDate.split('-');
+			} else {
+				// fallback
+				const d = new Date(dateString);
+				year = d.getFullYear();
+				month = String(d.getMonth() + 1).padStart(2, '0');
+				day = String(d.getDate()).padStart(2, '0');
+			}
+		
+			// SAFE LOCAL DATE (NO UTC SHIFT)
+			const date = new Date(Number(year), Number(month) - 1, Number(day));
+		
+			return {
+				day: String(date.getDate()).padStart(2, '0'),
+				month: date.toLocaleString('en-US', { month: 'short' }),
+				year: String(date.getFullYear()),
+				weekday: date.toLocaleString('en-US', { weekday: 'short' }).toUpperCase()
+			};
 		};
 
 		const dateParts = parseDate(parentDate);
@@ -124,15 +139,15 @@ registerBlockType(metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody className="evtb-date-settings" title={__('Date Settings', 'events')}>
+					<PanelBody className="evtb-date-settings" title={__('Date Settings', 'events-block')}>
 						<div style={{ marginBottom: '15px' }}>
-							<strong>{__('Event Date', 'events')}</strong>
+							<strong>{__('Event Date', 'events-block')}</strong>
 							<div style={{ margin: '10px 0' }}>
 								<ToggleControl
-									label={__('Hide Year', 'events')}
+									label={__('Hide Year', 'events-block')}
 									checked={hideYear}
 									onChange={(value) => setAttributes({ hideYear: value })}
-									help={__('Toggle to hide or show the year in the date badge', 'events')}
+									help={__('Toggle to hide or show the year in the date badge', 'events-block')}
 									__nextHasNoMarginBottom={true}
 								/>
 							</div>
@@ -144,11 +159,11 @@ registerBlockType(metadata.name, {
 						</div>
 					</PanelBody>
 
-					<PanelBody title={__('Date Colors', 'events')} initialOpen={false}>
+					<PanelBody title={__('Date Colors', 'events-block')} initialOpen={false}>
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Background Color', 'events')}
+									{__('Background Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={dateBadgeBackgroundColor}
@@ -159,7 +174,7 @@ registerBlockType(metadata.name, {
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Text Color', 'events')}
+									{__('Text Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={dateBadgeTextColor}
@@ -170,7 +185,7 @@ registerBlockType(metadata.name, {
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Border Color', 'events')}
+									{__('Border Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={borderBadgeColor}
@@ -181,7 +196,7 @@ registerBlockType(metadata.name, {
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Weekday Color', 'events')}
+									{__('Weekday Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={weekdayColor}
