@@ -84,22 +84,37 @@ registerBlockType(metadata.name, {
 				'--evtb-badge-weekday': weekdayColor
 			}
 		});
+		
 
 		// Parse date for display
 		const parseDate = (dateString) => {
-			if (!dateString) return { day: '01', month: 'Jan', year: '0001', weekday: 'MON' };
-
-			try {
-				const date = new Date(dateString);
-				return {
-					day: dateI18n('d', date),
-					month: dateI18n('M', date),
-					year: dateI18n('Y', date),
-					weekday: dateI18n('D', date).toUpperCase()
-				};
-			} catch (e) {
+			if (!dateString) {
 				return { day: '01', month: 'Jan', year: '0001', weekday: 'MON' };
 			}
+		
+			let year, month, day;
+		
+			// Case 1: YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss
+			if (/^\d{4}-\d{2}-\d{2}/.test(dateString)) {
+				const cleanDate = dateString.split('T')[0];
+				[year, month, day] = cleanDate.split('-');
+			} else {
+				// fallback
+				const d = new Date(dateString);
+				year = d.getFullYear();
+				month = String(d.getMonth() + 1).padStart(2, '0');
+				day = String(d.getDate()).padStart(2, '0');
+			}
+		
+			// SAFE LOCAL DATE (NO UTC SHIFT)
+			const date = new Date(Number(year), Number(month) - 1, Number(day));
+		
+			return {
+				day: String(date.getDate()).padStart(2, '0'),
+				month: date.toLocaleString('en-US', { month: 'short' }),
+				year: String(date.getFullYear()),
+				weekday: date.toLocaleString('en-US', { weekday: 'short' }).toUpperCase()
+			};
 		};
 
 		const dateParts = parseDate(parentDate);
