@@ -45,3 +45,5 @@ node_modules
 .vscode
 .cursor
 src/
+.codex
+.cursor
