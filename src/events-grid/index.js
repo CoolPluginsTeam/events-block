@@ -113,7 +113,7 @@ registerBlockType(metadata.name, {
 							onChange={(value) => setAttributes({ columns: parseInt(value) || 2 })}
 							min={1}
 							max={3}
-							help={__('Number of columns in the grid (1-3)', 'evtb')}
+							help={__('Number of columns in the grid (1-3)', 'events-block')}
 							__next40pxDefaultSize={true}
 						/>
 						<ToggleControl
