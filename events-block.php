@@ -52,9 +52,6 @@ final class EVTB_Events_Block
 		if (!get_option('evtb_install_date')) {
 			add_option('evtb_install_date', gmdate('Y-m-d h:i:s'));
 		}
-		if (!get_option('evtb_ratingDiv')) {
-			add_option('evtb_ratingDiv', 'no');
-		}
 	}
 
 	public function init()
