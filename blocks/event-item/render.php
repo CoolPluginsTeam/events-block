@@ -15,15 +15,15 @@ $end_time = ! empty( $attributes['eventEndTime'] ) ? $attributes['eventEndTime']
 $d_now = current_datetime()->format('Y-m-d H:i:s P');
 
 if ( $hide_past ) {
-	$event_date = $attributes['eventDate'] ?? '';
-	if ( $event_date ) {
+	$event_date = isset( $attributes['eventDate'] ) ? sanitize_text_field( $attributes['eventDate'] ) : '';
+	if ( preg_match( '/^\d{4}-\d{2}-\d{2}/', $event_date ) ) {
 		// If event_date is ISO format (has T), extract just the Y-m-d part
 		if ( strpos( $event_date, 'T' ) !== false ) {
 			$event_date = substr( $event_date, 0, 10 );
 		}
 
-		$start_time = ! empty( $attributes['eventStartTime'] ) ? $attributes['eventStartTime'] : '00:00';
-		$end_time = ! empty( $attributes['eventEndTime'] ) ? $attributes['eventEndTime'] : '23:59:59';
+		$start_time = ! empty( $attributes['eventStartTime'] ) ? sanitize_text_field( $attributes['eventStartTime'] ) : '00:00';
+		$end_time = ! empty( $attributes['eventEndTime'] ) ? sanitize_text_field( $attributes['eventEndTime'] ) : '23:59:59';
 		$event_dt_str = $event_date . ' ' . $end_time;
 		
 		// Create DateTime object with site's timezone

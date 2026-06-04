@@ -106,28 +106,28 @@ registerBlockType(metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={__('Grid Settings', 'events')}>
+					<PanelBody title={__('Grid Settings', 'events-block')}>
 						<NumberControl
-							label={__('Columns', 'events')}
+							label={__('Columns', 'events-block')}
 							value={columns}
 							onChange={(value) => setAttributes({ columns: parseInt(value) || 2 })}
 							min={1}
 							max={3}
-							help={__('Number of columns in the grid (1-3)', 'evtb')}
+							help={__('Number of columns in the grid (1-3)', 'events-block')}
 							__next40pxDefaultSize={true}
 						/>
 						<ToggleControl
-							label={__('Hide Year (All Events)', 'events')}
+							label={__('Hide Year (All Events)', 'events-block')}
 							checked={hideYear}
 							onChange={(value) => setAttributes({ hideYear: value })}
-							help={__('Toggle to hide or show the year in all event date badges', 'events')}
+							help={__('Toggle to hide or show the year in all event date badges', 'events-block')}
 							__nextHasNoMarginBottom={true}
 						/>
 						<ToggleControl
-							label={__('Hide Past Events', 'events')}
+							label={__('Hide Past Events', 'events-block')}
 							checked={hidePastEvents}
 							onChange={(value) => setAttributes({ hidePastEvents: value })}
-							help={__('Automatically hide events that have passed', 'events')}
+							help={__('Automatically hide events that have passed', 'events-block')}
 							__nextHasNoMarginBottom={true}
 						/>
 					</PanelBody>

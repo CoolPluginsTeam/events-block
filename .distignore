@@ -12,6 +12,7 @@
 .gitlab-ci.yml
 .travis.yml
 .DS_Store
+.claude
 Thumbs.db
 behat.yml
 bitbucket-pipelines.yml
@@ -44,3 +45,5 @@ node_modules
 .vscode
 .cursor
 src/
+.codex
+.cursor
