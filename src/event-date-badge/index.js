@@ -126,13 +126,13 @@ registerBlockType(metadata.name, {
 				<InspectorControls>
 					<PanelBody className="evtb-date-settings" title={__('Date Settings', 'events-block')}>
 						<div style={{ marginBottom: '15px' }}>
-							<strong>{__('Event Date', 'events')}</strong>
+							<strong>{__('Event Date', 'events-block')}</strong>
 							<div style={{ margin: '10px 0' }}>
 								<ToggleControl
-									label={__('Hide Year', 'events')}
+									label={__('Hide Year', 'events-block')}
 									checked={hideYear}
 									onChange={(value) => setAttributes({ hideYear: value })}
-									help={__('Toggle to hide or show the year in the date badge', 'events')}
+									help={__('Toggle to hide or show the year in the date badge', 'events-block')}
 									__nextHasNoMarginBottom={true}
 								/>
 							</div>
@@ -144,11 +144,11 @@ registerBlockType(metadata.name, {
 						</div>
 					</PanelBody>
 
-					<PanelBody title={__('Date Colors', 'events')} initialOpen={false}>
+					<PanelBody title={__('Date Colors', 'events-block')} initialOpen={false}>
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Background Color', 'events')}
+									{__('Background Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={dateBadgeBackgroundColor}
@@ -159,7 +159,7 @@ registerBlockType(metadata.name, {
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Text Color', 'events')}
+									{__('Text Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={dateBadgeTextColor}
@@ -170,7 +170,7 @@ registerBlockType(metadata.name, {
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Border Color', 'events')}
+									{__('Border Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={borderBadgeColor}
@@ -181,7 +181,7 @@ registerBlockType(metadata.name, {
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Weekday Color', 'events')}
+									{__('Weekday Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={weekdayColor}

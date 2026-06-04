@@ -360,7 +360,7 @@ registerBlockType(metadata.name, {
 			['core/group', { className: 'evtb-event-detail' }, [
 				// TIME
 				['core/paragraph', {
-					placeholder: __('9:00 AM – 5:00 PM', 'events'),
+					placeholder: __('9:00 AM – 5:00 PM', 'events-block'),
 					className: 'evtb-event-time',
 					evtbStartTime: eventStartTime,
 					evtbEndTime: eventEndTime,
@@ -369,28 +369,28 @@ registerBlockType(metadata.name, {
 				// TITLE
 				['core/heading', {
 					level: 4,
-					placeholder: __('Event Title', 'events'),
+					placeholder: __('Event Title', 'events-block'),
 					className: 'evtb-event-title'
 				}],
 				// DESCRIPTION
 				['core/paragraph', {
-					placeholder: __('Event Description', 'events'),
+					placeholder: __('Event Description', 'events-block'),
 					className: 'evtb-event-description'
 				}],
 				// LOCATION
 				['core/paragraph', {
-					placeholder: __('Event Location', 'events'),
+					placeholder: __('Event Location', 'events-block'),
 					className: 'evtb-event-location'
 				}],
 				// PRICE + READ MORE GROUP
 				['core/group', { className: 'evtb-price-read-more' }, [
 					['core/paragraph', {
-						placeholder: __('Event Price', 'events'),
+						placeholder: __('Event Price', 'events-block'),
 						className: 'evtb-event-price'
 					}],
 					['core/buttons', {}, [
 						['core/button', {
-							text: __('Read More', 'events'),
+							text: __('Read More', 'events-block'),
 							className: 'evtb-event-read-more',
 							url: ''
 						}]
@@ -403,11 +403,11 @@ registerBlockType(metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={__('Event Settings', 'events')}>
+					<PanelBody title={__('Event Settings', 'events-block')}>
 						<PanelRow>
 							<div style={{ width: '100%', marginTop: '16px' }}>
 								<label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-									{__('Details Background Color', 'events')}
+									{__('Details Background Color', 'events-block')}
 								</label>
 								<ColorPalette
 									value={detailsBackgroundColor}
@@ -428,7 +428,7 @@ registerBlockType(metadata.name, {
 									isSecondary
 									onClick={() => innerBlockTemplate(true)}
 								>
-									{__('Add Image Block', 'events')}
+									{__('Add Image Block', 'events-block')}
 								</Button>
 							</div>
 						)}
@@ -439,7 +439,7 @@ registerBlockType(metadata.name, {
 									isSecondary
 									onClick={() => innerBlockTemplate(false)}
 								>
-									{__('Remove Image Block', 'events')}
+									{__('Remove Image Block', 'events-block')}
 								</Button>
 							</div>
 						)}
@@ -628,13 +628,13 @@ const withTimeSettings = createHigherOrderComponent((BlockEdit) => {
 				createElement(
 					PanelBody,
 					{
-						title: __('Time Settings', 'events'),
+						title: __('Time Settings', 'events-block'),
 						className: 'evtb-time-settings'
 					},
 					createElement(
 						'div',
 						{ className: 'evtb-start-time-input' },
-						createElement('strong', {}, __('Start Time', 'events')),
+						createElement('strong', {}, __('Start Time', 'events-block')),
 						createElement('input', {
 							type: 'time',
 							value: currentStartTime,
@@ -649,7 +649,7 @@ const withTimeSettings = createHigherOrderComponent((BlockEdit) => {
 					createElement(
 						'div',
 						{ className: 'evtb-end-time-input' },
-						createElement('strong', {}, __('End Time', 'events')),
+						createElement('strong', {}, __('End Time', 'events-block')),
 						createElement('input', {
 							type: 'time',
 							value: currentEndTime,

@@ -17,7 +17,7 @@ $style_vars = array(
 	'--evtb-badge-border: ' . esc_attr( $bdr ),
 	'--evtb-badge-weekday: ' . esc_attr( $wkd ),
 );
-?><div <?php echo wp_kses_post(get_block_wrapper_attributes( array( 'class' => $cls, 'style' => implode( ';', $style_vars ) ) ) ); ?>>
+?><div <?php echo get_block_wrapper_attributes( array( 'class' => $cls, 'style' => implode( ';', $style_vars ) ) ) ; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 <div class="evtb-border-badge"><div class="evtb-event-date-badge">
 <span class="evtb-date-day"><?php echo esc_html( $d['day'] ); ?></span>
 <span class="evtb-date-month"><?php echo esc_html( $d['month'] ); ?></span>

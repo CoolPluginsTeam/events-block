@@ -224,7 +224,7 @@ class evtb_feedback {
 			$unique_key     	= '27';  // Ensure this key is unique per plugin to prevent collisions when site URL and install date are the same across plugins
             $site_id        	= $site_url . '-' . $install_date . '-' . $unique_key;
 			$feedback_url       = EVENTS_BLOCK_FEEDBACK_API .'wp-json/coolplugins-feedback/v1/feedback';
-			$info               =$this->cpfm_get_user_info();
+			$info               = $this->cpfm_get_user_info();
 			$response           = wp_remote_post(
 				$feedback_url,
 				array(
