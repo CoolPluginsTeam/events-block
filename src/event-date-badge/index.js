@@ -13,7 +13,7 @@ import { getCurrentDate } from '../shared/helpers';
 import metadata from '../../blocks/event-date-badge/block.json';
 
 // Register Event Date Badge Block using block.json metadata
-registerBlockType(metadata.name, {
+registerBlockType(metadata, {
 	title: __('Event Date Badge', 'events-block'),
 	edit: ({ attributes, setAttributes, context, clientId }) => {
 		const {
