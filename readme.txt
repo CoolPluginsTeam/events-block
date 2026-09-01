@@ -1,5 +1,5 @@
 === Events Block ===
-Contributors:coolplugins,narinder-singh,satindersingh
+Contributors:coolplugins,narinder-singh,satindersingh,eventscalendaraddons
 Tags: block, event, events block, events, gutenberg
 Tested up to: 7.1
 Stable tag: 1.0.9
